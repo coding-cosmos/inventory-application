@@ -60,3 +60,4 @@ router.get("/instrument/:id", instrument_controller.instrument_detail);
 // GET request for list of all Instrument.
 router.get("/instrument", instrument_controller.instrument_list);
 
+module.exports = router;
