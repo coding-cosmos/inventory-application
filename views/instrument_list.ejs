@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('./partials/head') %>
+  <body>
+    <div class="container">
+      <%- include('./partials/nav',{active:active}) %>
+      <main class="main">
+        
+        <section class="instruments-section">
+            <div class="controls">
+                <a href="/catalog/instrument/create">
+                    <div class="add-btn">+ Add Instruments</div>
+                </a>
+            </div>
+          <div class="instruments-wrapper">
+              <% instruments.forEach((instrument)=>{ %>
+              <a href=<%= instrument.url %> >
+                <div class="instrument-card">
+                  <img src=<%= instrument.image %> alt="">
+                  <div class="instrument-card-content">
+                    <div class="name"><%= instrument.name %></div>
+                    <div class="category-name">
+                      Category: <%= instrument.category.name %>
+                    </div>
+                    <div class="count">Available: <%= instrument.number %></div>
+                    <div class="price">Price: $<%= instrument.price %></div>
+                    <div class="btn">View More</div>
+                  </div>
+                </div>
+              </a>
+              <% }); %>
+          </div>
+        </section>
+      </main>
+      <%- include('./partials/footer') %>
+    </div>
+  </body>
+</html>
