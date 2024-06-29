@@ -9,9 +9,7 @@
           <h1>Categories</h1>
           <div class="categories">
             <% categories.forEach((category)=>{ %>
-            <a href=<%= category.url %>>
-              <div class="category"><%= category.name %></div></a
-            >
+              <%- include('./partials/category-btn',{category:category}) %>
             <% }); %>
           </div>
         </section>
@@ -19,12 +17,7 @@
           <h1>Instruments</h1>
           <div class="instruments">
             <% instruments.forEach((instrument)=>{ %>
-            <a href=<%= instrument.url %>>
-              <div class="instrument">
-                <%= instrument.name %>
-                <img src= <%= instrument.image %> alt="">
-              </div>
-            </a>
+              <%- include('./partials/instrument-btn',{instrument:instrument}) %>
             <% }); %>
           </div>
         </section>
