@@ -14,14 +14,15 @@ a {
 
 .btn {
   border: 1px solid black;
-  padding: 0.75em 1em;
+  padding: 0.5em 1em;
   background-color: black;
   color: white;
   border-radius: 100px;
   align-self: flex-end;
   margin-top: auto;
 }
-.btn:hover,.btn:focus{
+.btn:hover,
+.btn:focus {
   background-color: white;
   color: black;
 }
@@ -128,7 +129,8 @@ a {
 }
 
 .instruments-section,
-.category-section {
+.category-section,
+.instrument-section {
   background-color: ghostwhite;
   padding: 1em;
   border-radius: 24px;
@@ -180,8 +182,6 @@ a {
     flex-direction: column;
     gap: 1rem;
   }
-
- 
 }
 
 .category-wrapper {
@@ -199,7 +199,41 @@ a {
   .name {
     font-weight: bold;
   }
+}
 
+.instrument-wrapper {
+  padding: 1em;
+  background-color: white;
+  display: flex;
+  gap: 2rem;
+
+  align-items: center;
+
+  img {
+    width: 100%;
+  }
+
+  @media (max-width: 700px) {
+    flex-direction: column;
+  }
+}
+
+.instrument-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1em;
+  flex-grow: 1;
+
+  .field,
+  .name {
+    font-weight: bold;
+  }
+
+  .controls {
+    display: flex;
+    gap: 1rem;
+  }
 }
 
 footer {
