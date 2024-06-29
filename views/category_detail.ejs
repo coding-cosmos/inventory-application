@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('./partials/head') %>
+  <body>
+    <div class="container">
+      <%- include('./partials/nav',{active:active}) %>
+      <main class="main">
+        <section class="category-section">
+            <div class="category-wrapper">
+                <h1><%= category.name %></h1>
+                <p><%= category.description %></p>
+                
+                <h3>Available Instruments:</h3>
+                <div class="instruments">
+                    <% instruments.forEach((instrument)=>{ %>
+                      <%- include('./partials/instrument-btn',{instrument:instrument}) %>
+                    <% }); %>
+                  </div>
+                
+                  <div class="category-controls">
+                    <a href="<%= category.url %>/update" ><span class="btn">Update</span></a><a href="<%= category.url %>/delete"><span class="btn">Delete</span></a>
+                </div>
+            </div>
+        </section>
+      </main>
+      <%- include('./partials/footer') %>
+    </div>
+  </body>
+</html>
