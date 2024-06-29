@@ -18,7 +18,11 @@ exports.index = asyncHandler(async (req, res, next) => {
   
 // Display list of all Categories.
 exports.instrument_list = asyncHandler(async (req, res, next) => {
-    res.send("NOT IMPLEMENTED: Instrument list");
+  const instruments = await Instrument.find({}).populate('category').sort({ name: 1 }).exec();
+  res.render("instrument_list", {
+    active: "instrument",
+    instruments: instruments,
+  });
   });
   
   // Display detail page for a specific Instrument.
