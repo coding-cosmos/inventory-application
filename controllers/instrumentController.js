@@ -27,7 +27,12 @@ exports.instrument_list = asyncHandler(async (req, res, next) => {
   
   // Display detail page for a specific Instrument.
   exports.instrument_detail = asyncHandler(async (req, res, next) => {
-    res.send(`NOT IMPLEMENTED: Instrument detail: ${req.params.id}`);
+    const instrument = await Instrument.findById(req.params.id).populate('category').exec();
+
+    res.render("instrument_detail",{
+      active:"instrument",
+      instrument: instrument,
+    });
   });
   
   // Display Instrument create form on GET.
