@@ -9,8 +9,7 @@
           <h1>Categories</h1>
           <div class="categories">
             <% categories.forEach((category)=>{ %>
-            <a href="<%" ="category.url" %
-              >>
+            <a href=<%= category.url %>>
               <div class="category"><%= category.name %></div></a
             >
             <% }); %>
@@ -20,11 +19,10 @@
           <h1>Instruments</h1>
           <div class="instruments">
             <% instruments.forEach((instrument)=>{ %>
-            <a href="<%" ="instrument.url" %
-              >>
+            <a href=<%= instrument.url %>>
               <div class="instrument">
                 <%= instrument.name %>
-                <img src="<%" ="instrument.image" % /> alt="">
+                <img src= <%= instrument.image %> alt="">
               </div>
             </a>
             <% }); %>
