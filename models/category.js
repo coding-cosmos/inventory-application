@@ -1,6 +1,4 @@
-const { default: mongoose, mongo } = require("mongoose");
-
-const mongoose = require(mongoose);
+const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
@@ -13,4 +11,4 @@ CategorySchema.virtual("url").get(function () {
   return `/catalog/category/${this._id}`;
 });
 
-module.exports = mongoose.Model("Category", CategorySchema);
+module.exports = mongoose.model("Category", CategorySchema);
