@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('./partials/head') %>
+  <body>
+    <div class="container">
+      <%- include('./partials/nav',{active:active}) %>
+      <main class="main">
+        <section class="instrument-section">
+            <div class="instrument-wrapper">
+                <div class="image"><img src=<%= instrument.image %> alt=""></div>
+                <div class="instrument-content">
+                    <div class="name"><%= instrument.name %></div>
+                    <div class="instrument-category"><div class="field">Category:   </div><%= instrument.category.name %></div>
+                    <div class="description"><div class="field">Description:</div><%= instrument.description %></div>
+                    <div class="price"><div class="field">Price:</div>$<%= instrument.price %></div>
+                    <div class="number"><div class="field">Available:</div><%= instrument.number %></div>
+                    <div class="controls">
+                        <a href="<%= instrument.url %>/update" ><span class="btn">Update</span></a><a href="<%= instrument.url %>/delete"><span class="btn">Delete</span></a>
+                    </div>
+                </div>
+            </div>
+        </section>
+       
+      </main>
+      <%- include('./partials/footer') %>
+    </div>
+  </body>
+</html>
