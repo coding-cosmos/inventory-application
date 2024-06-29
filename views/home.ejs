@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('./partials/head') %>
+  <body>
+    <div class="container">
+      <%- include('./partials/nav',{active:active}) %>
+      <main class="main">
+        <section class="section">
+          <h1>Categories</h1>
+          <div class="categories">
+            <% categories.forEach((category)=>{ %>
+            <a href="<%" ="category.url" %
+              >>
+              <div class="category"><%= category.name %></div></a
+            >
+            <% }); %>
+          </div>
+        </section>
+        <section class="section">
+          <h1>Instruments</h1>
+          <div class="instruments">
+            <% instruments.forEach((instrument)=>{ %>
+            <a href="<%" ="instrument.url" %
+              >>
+              <div class="instrument">
+                <%= instrument.name %>
+                <img src="<%" ="instrument.image" % /> alt="">
+              </div>
+            </a>
+            <% }); %>
+          </div>
+        </section>
+      </main>
+      <%- include('./partials/footer') %>
+    </div>
+  </body>
+</html>
