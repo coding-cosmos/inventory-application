@@ -1,10 +1,20 @@
 const Instrument = require('../models/instrument');
+const Category = require('../models/category');
 const asyncHandler = require('express-async-handler');
 
 
 exports.index = asyncHandler(async (req, res, next) => {
-    res.send("NOT IMPLEMENTED: Site Home Page");
+  const [instruments, categories] = await Promise.all([
+    Instrument.find({}, "name image").sort({ name: 1 }).limit(5).exec(),
+    Category.find({}, "name").sort({ name: 1 }).limit(5).exec(),
+  ]);
+
+  res.render("home", {
+    active: "",
+    instruments: instruments,
+    categories: categories,
   });
+});
   
 // Display list of all Categories.
 exports.instrument_list = asyncHandler(async (req, res, next) => {
