@@ -236,6 +236,12 @@ a {
   }
 }
 
+.category-controls{
+  display: flex;
+  gap: 1rem;
+  align-self: flex-end;
+}
+
 footer {
   padding: 1em;
   text-align: center;
