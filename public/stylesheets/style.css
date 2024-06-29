@@ -9,6 +9,7 @@ body {
 
 a{
   text-decoration: none;
+  color: black;
 }
 .container {
   width: 90%;
@@ -51,10 +52,6 @@ a{
     padding: 0.75em 1em;
     border-radius: 100px;
   
-    a {
-      text-decoration: none;
-      color: black;
-    }
   }
 
   .active {
@@ -118,7 +115,69 @@ a{
   }
 }
 
+.instruments-section{
+  background-color: ghostwhite;
+  padding: 1em;
+  border-radius: 24px;
+  display: flex;
+  flex-direction: column;
 
+  gap: 1rem;
+}
+
+.controls{
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
+}
+
+.add-btn{
+    padding: .5em 1em;
+    background-color: black;
+    color: white;
+    border-radius: 100px;
+    margin-top: auto;
+}
+
+.instruments-wrapper{
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(25rem, 1fr));
+  grid-template-rows: auto;
+  gap: 1em;
+
+}
+.instrument-card{
+  display: flex;
+  padding: 1em;
+  background-color: white;
+  border-radius: 24px;
+
+  gap: 1rem;
+  img{
+    width: 50%;
+    object-fit: contain;
+  }
+  .name,.price{
+    font-weight: bold;
+  }
+
+  .instrument-card-content{
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .btn{
+    padding: .75em 1em;
+    background-color: black;
+    color: white;
+    border-radius: 100px;
+    align-self:flex-end ;
+    margin-top: auto;
+  }
+
+}
 
 footer {
   padding: 1em;
