@@ -1,0 +1,15 @@
+<nav class="nav">
+  <div class="logo">Musicals</div>
+  <ul class="links">
+    <% if(active=="instrument"){ %>
+    <li class="link active"><a href="/catalog/instrument">Instruments</a></li>
+    <li class="link"><a href="/catalog/category">Category</a></li>
+    <% }else if(active=="category"){ %>
+    <li class="link"><a href="/catalog/instrument">Instruments</a></li>
+    <li class="link active"><a href="/catalog/category">Category</a></li>
+    <% } else {%>
+    <li class="link"><a href="/catalog/instrument">Instruments</a></li>
+    <li class="link"><a href="/catalog/category">Category</a></li>
+    <% } %>
+  </ul>
+</nav>
