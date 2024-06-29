@@ -7,8 +7,22 @@ body {
   font: 16px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
-a{
+a {
   text-decoration: none;
+  color: black;
+}
+
+.btn {
+  border: 1px solid black;
+  padding: 0.75em 1em;
+  background-color: black;
+  color: white;
+  border-radius: 100px;
+  align-self: flex-end;
+  margin-top: auto;
+}
+.btn:hover,.btn:focus{
+  background-color: white;
   color: black;
 }
 .container {
@@ -20,10 +34,10 @@ a{
   grid-template-rows: min-content 1fr min-content;
 }
 
-.main{
+.main {
   display: flex;
   flex-direction: column;
-  gap:2rem;
+  gap: 2rem;
 }
 .nav {
   display: flex;
@@ -41,7 +55,7 @@ a{
   .links {
     padding: 1em;
     display: flex;
-  
+
     justify-content: space-between;
     list-style: none;
     gap: 1rem;
@@ -51,12 +65,11 @@ a{
     border: 1px solid black;
     padding: 0.75em 1em;
     border-radius: 100px;
-  
   }
 
   .active {
     background-color: black;
-  
+
     a {
       text-decoration: none;
       color: white;
@@ -64,31 +77,30 @@ a{
   }
 }
 
-.section{
+.section {
   border-radius: 24px;
   background-color: ghostwhite;
-  h1{
+  h1 {
     text-align: center;
     margin: 1em 0em;
   }
 }
 
-.categories{
+.categories {
   padding: 1em;
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
- 
 }
 
-.category{
-  padding: .75em 1em;
+.category {
+  padding: 0.75em 1em;
   border-radius: 100px;
   background-color: black;
   color: white;
 }
 
-.instruments{
+.instruments {
   padding: 1em;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
@@ -96,7 +108,7 @@ a{
   gap: 1em;
 }
 
-.instrument{
+.instrument {
   border: 1px solid black;
   border-radius: 24px;
   background-color: white;
@@ -109,13 +121,14 @@ a{
 
   color: black;
   font-weight: bold;
-  img{
+  img {
     width: 100%;
-    object-fit:cover ;
+    object-fit: cover;
   }
 }
 
-.instruments-section{
+.instruments-section,
+.category-section {
   background-color: ghostwhite;
   padding: 1em;
   border-radius: 24px;
@@ -125,56 +138,66 @@ a{
   gap: 1rem;
 }
 
-.controls{
+.controls {
   display: flex;
   width: 100%;
   justify-content: flex-end;
 }
 
-.add-btn{
-    padding: .5em 1em;
-    background-color: black;
-    color: white;
-    border-radius: 100px;
-    margin-top: auto;
+.add-btn {
+  padding: 0.5em 1em;
+  background-color: black;
+  color: white;
+  border-radius: 100px;
+  margin-top: auto;
 }
 
-.instruments-wrapper{
+.instruments-wrapper {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(25rem, 1fr));
   grid-template-rows: auto;
   gap: 1em;
-
 }
-.instrument-card{
+.instrument-card {
   display: flex;
   padding: 1em;
   background-color: white;
   border-radius: 24px;
 
   gap: 1rem;
-  img{
+  img {
     width: 50%;
     object-fit: contain;
   }
-  .name,.price{
+  .name,
+  .price {
     font-weight: bold;
   }
 
-  .instrument-card-content{
+  .instrument-card-content {
     width: 50%;
     display: flex;
     flex-direction: column;
     gap: 1rem;
   }
 
-  .btn{
-    padding: .75em 1em;
-    background-color: black;
-    color: white;
-    border-radius: 100px;
-    align-self:flex-end ;
-    margin-top: auto;
+ 
+}
+
+.category-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.category-item {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1em;
+  background-color: white;
+
+  .name {
+    font-weight: bold;
   }
 
 }
