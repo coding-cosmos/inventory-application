@@ -117,7 +117,7 @@ exports.instrument_list = asyncHandler(async (req, res, next) => {
     ]);
     
 
-    res.render('instrument_form',{title:"Add a new instrument",active:"instrument",categories:categories,instrument:instrument,errors:null});
+    res.render('instrument_form',{title:"Update the Instrument",active:"instrument",categories:categories,instrument:instrument,errors:null});
   });
   
   // Handle Instrument update on POST.
