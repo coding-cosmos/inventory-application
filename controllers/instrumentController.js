@@ -1,6 +1,7 @@
 const Instrument = require('../models/instrument');
 const Category = require('../models/category');
 const asyncHandler = require('express-async-handler');
+const { body, validationResult } = require('express-validator');
 
 
 exports.index = asyncHandler(async (req, res, next) => {
@@ -37,13 +38,68 @@ exports.instrument_list = asyncHandler(async (req, res, next) => {
   
   // Display Instrument create form on GET.
   exports.instrument_create_get = asyncHandler(async (req, res, next) => {
-    res.send("NOT IMPLEMENTED: Instrument create GET");
+    const categories = await Category.find({}).sort({ name: 1 }).exec();
+
+    res.render('instrument_form',{title:"Add a new instrument",active:"instrument",categories:categories,instrument:null,errors:null});
   });
   
   // Handle Instrument create on POST.
-  exports.instrument_create_post = asyncHandler(async (req, res, next) => {
-    res.send("NOT IMPLEMENTED: Instrument create POST");
-  });
+  exports.instrument_create_post = [
+    body('name','Name must not be empty.')
+    .trim()
+    .isLength({min:1})
+    .escape(),
+
+    body('description','Description must not be empty.')
+    .trim()
+    .isLength({min:1})
+    .escape(),
+
+    body('category','Category must not be empty.')
+    .trim()
+    .isLength({min:1})
+    .escape(),
+
+    body('price','Price must not be empty.')
+    .trim()
+    .isLength({min:1})
+    .escape(),
+
+    body('number','Availble number must not be empty.')
+    .trim()
+    .isLength({min:1})
+    .escape(),
+
+    body('image','Image URL must not be empty.')
+    .trim()
+    .isLength({min:1})
+    .escape(),
+
+    asyncHandler(async (req,res,next)=>{
+      const errors = validationResult(req);
+
+      
+      const instrument = new Instrument({
+        name:req.body.name,
+        category:req.body.category,
+        description:req.body.description,
+        price:req.body.price,
+        image:req.body.image,
+        number:req.body.number
+      });
+
+      if(errors.isEmpty()){
+        await instrument.save();
+
+        res.redirect(instrument.url);
+      }else{
+        const categories = await Category.find({}).sort({ name: 1 }).exec();
+
+        res.render('instrument_form',{title:"Add a new instrument",active:"instrument",categories:categories,instrument:instrument,errors:errors.array()});
+      }
+    }),
+    
+  ];
   
   // Display Instrument delete form on GET.
   exports.instrument_delete_get = asyncHandler(async (req, res, next) => {
