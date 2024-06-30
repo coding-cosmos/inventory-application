@@ -12,7 +12,7 @@
                 
                 <h3>Available Instruments:</h3>
                 <div class="instruments">
-                    <% instruments.forEach((instrument)=>{ %>
+                    <% instruments?.forEach((instrument)=>{ %>
                       <%- include('./partials/instrument-btn',{instrument:instrument}) %>
                     <% }); %>
                   </div>
