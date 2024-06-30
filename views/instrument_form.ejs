@@ -6,7 +6,7 @@
       <%- include('./partials/nav',{active:active}) %>
       <main class="main">
         <h1><%= title %></h1>
-        <form method="post">
+        <form method="post" enctype="multipart/form-data">
           <div class="form-field">
             <label for="name">Name:</label
             ><input
@@ -59,7 +59,7 @@
 
           <div class="form-field">
             <label for="image">Image URL:</label
-            ><input type="text" id="image" name="image" value="<%- instrument ? instrument.image: '' %>" />
+            ><input type="file" id="image" name="image" />
           </div>
 
           <button type="submit" class="btn">Submit</button>
