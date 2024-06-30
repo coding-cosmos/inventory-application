@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('./partials/head') %>
+  <body>
+    <div class="container">
+      <%- include('./partials/nav',{active:active}) %>
+      <main class="main">
+        <h1><%= title %></h1>
+        <form method="post">
+          <div class="form-field">
+            <label for="name">Name:</label
+            ><input
+              type="text"
+              id="name"
+              name="name"
+              placeholder="Name of instrument"
+              value="<%- instrument ? instrument.name: '' %>"
+            />
+          </div>
+
+          <div class="form-field">
+            <label for="category">Category:</label>
+            <select name="category" id="category">
+                <option value="">--Please select a category--</option>
+                <% categories.forEach((category)=>{ %>
+                    <% if(instrument){ %>
+                        <% if(instrument.category._id.toString()===category._id.toString()){ %>
+                            <option value="<%= category._id %>" selected> <%= category.name %></option>
+                        <% }else{ %>
+                            <option value="<%= category._id %>"> <%= category.name %></option>
+                        <% } %>
+                    <% }else{ %>
+                        <option value="<%= category._id %>"> <%= category.name %></option>
+                    <% } %>
+                <% }); %>
+            </select>
+          </div>
+
+          <div class="form-field">
+            <label for="description">Description:</label
+            ><input
+              type="text"
+              id="description"
+              name="description"
+              placeholder="A small description about the instrument"
+              value="<%- instrument ? instrument.description: '' %>"
+            />
+          </div>
+
+          <div class="form-field">
+            <label for="price">Price (in $):</label
+            ><input type="number" id="price" name="price" value="<%- instrument ? instrument.price: '' %>" />
+          </div>
+
+          <div class="form-field">
+            <label for="number">Availble:</label
+            ><input type="number" id="number" name="number" value="<%- instrument ? instrument.number: '' %>" />
+          </div>
+
+          <div class="form-field">
+            <label for="image">Image URL:</label
+            ><input type="text" id="image" name="image" value="<%- instrument ? instrument.image: '' %>" />
+          </div>
+
+          <button type="submit" class="btn">Submit</button>
+        </form>
+        <div class="errors">
+          <% if(errors){ %> <% errors.forEach((error)=>{ %>
+          <p><%= error.msg %></p>
+          <% }); %> <% } %>
+        </div>
+      </main>
+      <%- include('./partials/footer') %>
+    </div>
+  </body>
+</html>
