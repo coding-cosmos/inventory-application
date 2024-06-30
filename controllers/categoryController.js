@@ -61,12 +61,46 @@ exports.category_create_post = [
 
 // Display Category delete form on GET.
 exports.category_delete_get = asyncHandler(async (req, res, next) => {
-  res.send("NOT IMPLEMENTED: Category delete GET");
+  const [category, instruments] = await Promise.all([
+    Category.findById(req.params.id).exec(),
+    Instrument.find({ category: req.params.id }, "name image")
+      .sort({ name: 1 })
+      .exec(),
+  ]);
+
+  if (category === null) {
+    res.redirect("/catalog/category");
+  }
+
+  res.render("category_delete", {
+    active: "category",
+    title: "Delete Category",
+    category: category,
+    instruments: instruments,
+  });
 });
 
 // Handle Category delete on POST.
 exports.category_delete_post = asyncHandler(async (req, res, next) => {
-  res.send("NOT IMPLEMENTED: Category delete POST");
+  const [category, instruments] = await Promise.all([
+    Category.findById(req.params.id).exec(),
+    Instrument.find({ category: req.params.id }, "name image")
+      .sort({ name: 1 })
+      .exec(),
+  ]);
+
+  if (instruments.length > 0) {   
+    res.render("category_delete", {
+      active:"category",
+      title: "Delete Category",
+      category: category,
+      instruments: instruments,
+    });
+    return;
+  } else {   
+    await Category.findByIdAndDelete(req.body.categoryid);
+    res.redirect("/catalog/category");
+  }
 });
 
 // Display Category update form on GET.
