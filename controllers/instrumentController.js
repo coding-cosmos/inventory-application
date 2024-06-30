@@ -2,6 +2,7 @@ const Instrument = require('../models/instrument');
 const Category = require('../models/category');
 const asyncHandler = require('express-async-handler');
 const { body, validationResult } = require('express-validator');
+const uploadImageAndGetURL = require('../scripts/cloudinary');
 
 
 exports.index = asyncHandler(async (req, res, next) => {
@@ -70,21 +71,16 @@ exports.instrument_list = asyncHandler(async (req, res, next) => {
     .isLength({min:1})
     .escape(),
 
-    body('image','Image URL must not be empty.')
-    .trim()
-    .isLength({min:1})
-    .escape(),
-
     asyncHandler(async (req,res,next)=>{
       const errors = validationResult(req);
-
+      const url = await uploadImageAndGetURL(req);
       
       const instrument = new Instrument({
         name:req.body.name,
         category:req.body.category,
         description:req.body.description,
         price:req.body.price,
-        image:req.body.image,
+        image:url,
         number:req.body.number
       });
 
