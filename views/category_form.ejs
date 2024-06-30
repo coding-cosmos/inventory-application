@@ -5,26 +5,36 @@
     <div class="container">
       <%- include('./partials/nav',{active:active}) %>
       <main class="main">
-        <h1><%= title %></h1>
-       <form method="post">
-        <div class="form-field">
-            <label for="name">Name </label>
-            <input for="name" id="name" name="name" type="text"
-            value="<%- category? category.name:"" %>">
+        <section class="form-section">
+          <h2><%= title %></h2>
+          <form method="post">
+            <div class="field-wrapper">
+              <div class="label-wrapper">
+                <label for="name">Name </label>
+                <label for="description">Description</label>
+              </div>
+              <div class="inputs-wrapper">
+                <input
+                  for="name"
+                  id="name"
+                  name="name"
+                  type="text"
+                  value="<%- category?category.name: "" %>"
+                  placeholder="Enter Category Name"
+                />
+                <input for="description" id="description" type="textarea"
+                name="description" placeholder="Enter a brief description" value="<%- category? category.description:""
+                %>">
+              </div>
+            </div>
+            <button type="submit" class="btn">Submit</button>
+          </form>
+        </section>
+        <div class="errors">
+          <% if(errors){ %> <% errors.forEach((error)=>{ %>
+          <p><%= error.msg %></p>
+          <% }); %> <% } %>
         </div>
-        <div class="form-field">
-            <label for="description">Description </label>
-            <input for="description" id="description"  type="textarea" name="description"  value="<%- category? category.description:"" %>">
-        </div>
-        <button type="submit">Submit</button>
-       </form>
-       <div class="errors">
-        <% if(errors){ %>
-            <% errors.forEach((error)=>{ %>
-                <p><%= error.msg %></p>
-            <% }); %>
-        <% } %>
-    </div>
       </main>
       <%- include('./partials/footer') %>
     </div>
