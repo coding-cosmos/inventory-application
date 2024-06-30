@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('./partials/head') %>
+  <body>
+    <div class="container">
+      <%- include('./partials/nav',{active:active}) %>
+      <main class="main">
+      <h1><%= title %></h1>
+
+      <% if(instruments.length){ %>
+        <p><strong>Please Delete the following instruments before deleting this category:</strong></p>
+        <div class="instruments">
+            <% instruments?.forEach((instrument)=>{ %>
+              <%- include('./partials/instrument-btn',{instrument:instrument}) %>
+            <% }); %>
+        </div>
+      <% }else{ %>
+        <p>Do you really want to delete this category?</p>
+        <form  method="post">
+            <div class="form-field">
+                <input type="hidden" name="categoryid" value="<%= category._id %>">
+                <button type="submit" class="btn">Delete</button>
+            </div>
+        </form>
+      <% } %>
+      </main>
+      <%- include('./partials/footer') %>
+    </div>
+  </body>
+</html>
