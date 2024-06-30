@@ -103,12 +103,14 @@ exports.instrument_list = asyncHandler(async (req, res, next) => {
   
   // Display Instrument delete form on GET.
   exports.instrument_delete_get = asyncHandler(async (req, res, next) => {
-    res.send("NOT IMPLEMENTED: Instrument delete GET");
+    const instrument = await Instrument.findById(req.params.id).exec();
+    res.render('instrument_delete',{active:"instruments",instrument:instrument});
   });
   
   // Handle Instrument delete on POST.
   exports.instrument_delete_post = asyncHandler(async (req, res, next) => {
-    res.send("NOT IMPLEMENTED: Instrument delete POST");
+    await Instrument.findByIdAndDelete(req.body.instrumentid);
+    res.redirect("/catalog/instrument");
   });
   
   // Display Instrument update form on GET.
