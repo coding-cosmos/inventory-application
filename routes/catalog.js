@@ -5,6 +5,8 @@ const router = express.Router();
 const category_controller = require("../controllers/categoryController");
 const instrument_controller = require("../controllers/instrumentController");
 
+const upload = require("../scripts/multerUpload");
+
 /// Category ROUTES ///
 
 // GET request for creating a Category. NOTE This must come before routes that display Category (uses id).
@@ -40,7 +42,7 @@ router.get("/", instrument_controller.index);
 router.get("/instrument/create", instrument_controller.instrument_create_get);
 
 // POST request for creating Instrument.
-router.post("/instrument/create", instrument_controller.instrument_create_post);
+router.post("/instrument/create", upload ,instrument_controller.instrument_create_post);
 
 // GET request to delete Instrument.
 router.get("/instrument/:id/delete", instrument_controller.instrument_delete_get);
