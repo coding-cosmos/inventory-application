@@ -16,7 +16,7 @@ async function handleUpload(file) {
   return res;
 }
 
-async function uploadImageAndGetURL(req) {
+async function uploadImageAndGetURL(req,res) {
   try {
     const b64 = Buffer.from(req.file.buffer).toString("base64");
     let dataURI = "data:" + req.file.mimetype + ";base64," + b64;
