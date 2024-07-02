@@ -73,7 +73,7 @@ exports.instrument_list = asyncHandler(async (req, res, next) => {
 
     asyncHandler(async (req,res,next)=>{
       const errors = validationResult(req);
-      const url = await uploadImageAndGetURL(req);
+      const url = await uploadImageAndGetURL(req,res);
       
       const instrument = new Instrument({
         name:req.body.name,
@@ -121,7 +121,7 @@ exports.instrument_list = asyncHandler(async (req, res, next) => {
   });
   
   // Handle Instrument update on POST.
-  exports.instrument_update_post = [
+  exports.instrument_update_post =[
     body('name','Name must not be empty.')
     .trim()
     .isLength({min:1})
@@ -147,21 +147,16 @@ exports.instrument_list = asyncHandler(async (req, res, next) => {
     .isLength({min:1})
     .escape(),
 
-    body('image','Image URL must not be empty.')
-    .trim()
-    .isLength({min:1})
-    .escape(),
-
     asyncHandler(async (req,res,next)=>{
       const errors = validationResult(req);
-
+      const url = await uploadImageAndGetURL(req,res);
       
       const instrument = new Instrument({
         name:req.body.name,
         category:req.body.category,
         description:req.body.description,
         price:req.body.price,
-        image:req.body.image,
+        image:url,
         number:req.body.number,
         _id:req.params.id
       });
