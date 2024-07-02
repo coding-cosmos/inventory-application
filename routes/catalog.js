@@ -54,7 +54,7 @@ router.post("/instrument/:id/delete", instrument_controller.instrument_delete_po
 router.get("/instrument/:id/update", instrument_controller.instrument_update_get);
 
 // POST request to update Instrument.
-router.post("/instrument/:id/update", instrument_controller.instrument_update_post);
+router.post("/instrument/:id/update",upload, instrument_controller.instrument_update_post);
 
 // GET request for one Instrument.
 router.get("/instrument/:id", instrument_controller.instrument_detail);
