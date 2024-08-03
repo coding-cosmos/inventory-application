@@ -2,11 +2,12 @@ const Category = require("../models/category");
 const Instrument = require("../models/instrument");
 const asyncHandler = require("express-async-handler");
 const { body, validationResult } = require("express-validator");
+const db = require('../db/queries');
 
 
 // Display list of all Categories.
 exports.category_list = asyncHandler(async (req, res, next) => {
-  const categories = await Category.find({}).sort({ name: 1 }).exec();
+  const categories = await db.getAllCategories();
 
   res.render("category_list", {
     active: "category",
@@ -16,10 +17,8 @@ exports.category_list = asyncHandler(async (req, res, next) => {
 
 // Display detail page for a specific Category.
 exports.category_detail = asyncHandler(async (req, res, next) => {
-  const category = await Category.findById(req.params.id).exec();
-  const instruments = await Instrument.find({ category: req.params.id },"name image")
-    .sort({ name: 1 })
-    .exec();
+  const category = await db.getCategory(req.params.id);
+  const instruments = await db.getInstrumentsWithCategory(req.params.id);
 
   res.render("category_detail", {
     active: "category",
@@ -48,10 +47,10 @@ exports.category_create_post = [
   asyncHandler(async (req,res,next)=>{
     const errors = validationResult(req);
     
-    const category = new Category({name:req.body.name,description:req.body.description});
+    const category = {name:req.body.name,description:req.body.description};
 
     if(errors.isEmpty()){
-      await category.save();
+      await db.insertCategory(category.name,category.description);
       res.render("category_detail",{active:"category",category:category,instruments:undefined});
     }else{
       res.render("category_form",{title:"Create New Category",active:"category",category:category,errors:errors.array()});
@@ -62,10 +61,8 @@ exports.category_create_post = [
 // Display Category delete form on GET.
 exports.category_delete_get = asyncHandler(async (req, res, next) => {
   const [category, instruments] = await Promise.all([
-    Category.findById(req.params.id).exec(),
-    Instrument.find({ category: req.params.id }, "name image")
-      .sort({ name: 1 })
-      .exec(),
+    db.getCategory(req.params.id),
+    db.getInstrumentsWithCategory(req.params.id)
   ]);
 
   if (category === null) {
@@ -83,10 +80,8 @@ exports.category_delete_get = asyncHandler(async (req, res, next) => {
 // Handle Category delete on POST.
 exports.category_delete_post = asyncHandler(async (req, res, next) => {
   const [category, instruments] = await Promise.all([
-    Category.findById(req.params.id).exec(),
-    Instrument.find({ category: req.params.id }, "name image")
-      .sort({ name: 1 })
-      .exec(),
+    db.getCategory(req.params.id),
+    db.getInstrumentsWithCategory(req.params.id)
   ]);
 
   if (instruments.length > 0) {   
@@ -98,14 +93,14 @@ exports.category_delete_post = asyncHandler(async (req, res, next) => {
     });
     return;
   } else {   
-    await Category.findByIdAndDelete(req.body.categoryid);
+    await db.deleteCategory(req.body.categoryid);
     res.redirect("/catalog/category");
   }
 });
 
 // Display Category update form on GET.
 exports.category_update_get = asyncHandler(async (req, res, next) => {
-  const category = await Category.findById(req.params.id).exec();
+  const category = await db.getCategory(req.params.id);
 
   res.render("category_form",{title:"Update Category",active:"category",category:category,errors:null}); 
 });
@@ -125,10 +120,10 @@ exports.category_update_post = [
   asyncHandler(async (req,res,next)=>{
     const errors = validationResult(req);
     
-    const category = new Category({name:req.body.name,description:req.body.description,_id:req.params.id});
+    const category = {name:req.body.name,description:req.body.description};
 
     if(errors.isEmpty()){
-     const updatedCategory = await Category.findByIdAndUpdate(req.params.id,category,{});
+     const updatedCategory = await db.updateCategory(req.params.id,category.name,category.description);
 
      res.redirect(updatedCategory.url);
     }else{
