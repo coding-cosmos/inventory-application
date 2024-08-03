@@ -6,7 +6,8 @@ const SQL = `
 CREATE TABLE IF NOT EXISTS categories(
     category_id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     name VARCHAR (52),
-    description VARCHAR (255)
+    description VARCHAR (255),
+    url TEXT GENERATED ALWAYS AS ('/catalog/category/'||category_id) STORED
 );
 
 INSERT INTO categories(name, description)
@@ -24,7 +25,8 @@ CREATE TABLE IF NOT EXISTS instruments(
     price DECIMAL ,
     image TEXT,
     number INTEGER,
-    category_id INTEGER REFERENCES categories(category_id)
+    category_id INTEGER REFERENCES categories(category_id),
+    url TEXT GENERATED ALWAYS AS ('/catalog/instrument/'||instrument_id) STORED
 );
 
 INSERT INTO instruments (name, description,price,image,number,category_id)
