@@ -5,7 +5,6 @@ async function getAllCategories(){
         Select * FROM categories
         ORDER BY name
         `);
-
     return rows;
 }
 
@@ -30,13 +29,15 @@ async function deleteCategory(categoryID){
 
 
 async function updateCategory(categoryID,name,description){
-    const row = await pool.query(`
+    const {rows} = await pool.query(`
         UPDATE categories
         SET name = ($1),
             description = ($2)
         WHERE category_id = ($3)
+        RETURNING *
         `,[name,description,categoryID]);
 
+        return rows[0]
 }
 
 async function getInstrumentsWithCategory(categoryID){
@@ -51,7 +52,7 @@ async function getInstrumentsWithCategory(categoryID){
 async function getAllInstruments(){
     const {rows} = await pool.query(`
         SELECT 
-        I.name,I.description,price,image,number,C.name AS category
+        I.name,I.description,I.url,price,image,number,C.name AS category, C.category_id AS category_id
         FROM instruments AS I
         INNER JOIN categories AS C
         ON C.category_id = I.category_id
@@ -65,7 +66,8 @@ async function getAllInstruments(){
 async function getInstrument(instrumentID){
     const {rows} = await pool.query(`
         SELECT 
-        I.name,I.description,price,image,number,C.name AS category
+        I.name,I.description,I.url,price,image,number,C.name AS category,instrument_id,
+        I.category_id AS category_id
         FROM instruments AS I
         INNER JOIN categories AS C
         ON C.category_id = I.category_id
@@ -76,10 +78,13 @@ async function getInstrument(instrumentID){
 }
 
 async function insertInstrument(name,category,description,price,image,number){
-    await pool.query(`
+    const {rows} = await pool.query(`
         INSERT INTO instruments(name,description,price,image,number,category_id)
         VALUES (($1),($2),($3),($4),($5),($6))
+        RETURNING *
         `,[name,description,price,image,number,category]);
+        
+        return rows[0];
 }
 
 async function deleteInstrument(instrumentID){
@@ -90,7 +95,7 @@ async function deleteInstrument(instrumentID){
 }
 
 async function updateInstrument(instrumentID,name,category,description,price,image,number){
-    const row = await pool.query(`
+    const {rows} = await pool.query(`
         UPDATE instruments
         SET name = ($1),
             category_id = ($2),
@@ -99,6 +104,23 @@ async function updateInstrument(instrumentID,name,category,description,price,ima
             image = ($5),
             number = ($6)
         WHERE instrument_id = ($7)
+        RETURNING *
         `,[name,category,description,price,image,number,instrumentID]);
+
+        return rows[0]
 }
 
+
+module.exports={
+    getAllCategories,
+    getAllInstruments,
+    getInstrument,
+    insertInstrument,
+    updateInstrument,
+    deleteInstrument,
+    getCategory,
+    getInstrumentsWithCategory,
+    insertCategory,
+    deleteCategory,
+    updateCategory
+}
