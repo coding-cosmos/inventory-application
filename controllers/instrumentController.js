@@ -1,14 +1,12 @@
-const Instrument = require('../models/instrument');
-const Category = require('../models/category');
 const asyncHandler = require('express-async-handler');
 const { body, validationResult } = require('express-validator');
 const uploadImageAndGetURL = require('../scripts/cloudinary');
-
+const db = require('../db/queries');
 
 exports.index = asyncHandler(async (req, res, next) => {
   const [instruments, categories] = await Promise.all([
-    Instrument.find({}, "name image").sort({ name: 1 }).limit(5).exec(),
-    Category.find({}, "name").sort({ name: 1 }).limit(5).exec(),
+    db.getAllInstruments(),
+    db.getAllCategories(),
   ]);
 
   res.render("home", {
@@ -18,9 +16,9 @@ exports.index = asyncHandler(async (req, res, next) => {
   });
 });
   
-// Display list of all Categories.
+// Display list of all Instruments.
 exports.instrument_list = asyncHandler(async (req, res, next) => {
-  const instruments = await Instrument.find({}).populate('category').sort({ name: 1 }).exec();
+  const instruments = await db.getAllInstruments();
   res.render("instrument_list", {
     active: "instrument",
     instruments: instruments,
@@ -29,7 +27,7 @@ exports.instrument_list = asyncHandler(async (req, res, next) => {
   
   // Display detail page for a specific Instrument.
   exports.instrument_detail = asyncHandler(async (req, res, next) => {
-    const instrument = await Instrument.findById(req.params.id).populate('category').exec();
+    const instrument = await db.getInstrument(req.params.id);
 
     res.render("instrument_detail",{
       active:"instrument",
@@ -39,8 +37,8 @@ exports.instrument_list = asyncHandler(async (req, res, next) => {
   
   // Display Instrument create form on GET.
   exports.instrument_create_get = asyncHandler(async (req, res, next) => {
-    const categories = await Category.find({}).sort({ name: 1 }).exec();
-
+    const categories = await db.getAllCategories();
+    console.log(categories);
     res.render('instrument_form',{title:"Add a new instrument",active:"instrument",categories:categories,instrument:null,errors:null});
   });
   
@@ -75,21 +73,21 @@ exports.instrument_list = asyncHandler(async (req, res, next) => {
       const errors = validationResult(req);
       const url = await uploadImageAndGetURL(req,res);
       
-      const instrument = new Instrument({
+      const instrument = {
         name:req.body.name,
         category:req.body.category,
         description:req.body.description,
         price:req.body.price,
         image:url,
         number:req.body.number
-      });
+      };
 
       if(errors.isEmpty()){
-        await instrument.save();
+        const insertedInstrument = await db.insertInstrument(instrument.name,instrument.category,instrument.description,instrument.price,instrument.image,instrument.number);
 
-        res.redirect(instrument.url);
+        res.redirect(insertedInstrument.url);
       }else{
-        const categories = await Category.find({}).sort({ name: 1 }).exec();
+        const categories = await db.getAllCategories();
 
         res.render('instrument_form',{title:"Add a new instrument",active:"instrument",categories:categories,instrument:instrument,errors:errors.array()});
       }
@@ -99,21 +97,21 @@ exports.instrument_list = asyncHandler(async (req, res, next) => {
   
   // Display Instrument delete form on GET.
   exports.instrument_delete_get = asyncHandler(async (req, res, next) => {
-    const instrument = await Instrument.findById(req.params.id).exec();
+    const instrument = await db.getInstrument(req.params.id);
     res.render('instrument_delete',{active:"instruments",instrument:instrument});
   });
   
   // Handle Instrument delete on POST.
   exports.instrument_delete_post = asyncHandler(async (req, res, next) => {
-    await Instrument.findByIdAndDelete(req.body.instrumentid);
+    await db.deleteInstrument(req.body.instrumentid);
     res.redirect("/catalog/instrument");
   });
   
   // Display Instrument update form on GET.
   exports.instrument_update_get = asyncHandler(async (req, res, next) => {
     const [categories,instrument] = await Promise.all([
-      Category.find({}).sort({ name: 1 }).exec(),
-      Instrument.findById(req.params.id).populate("category").exec()
+      db.getAllCategories(),
+      db.getInstrument(req.params.id)
     ]);
     
 
@@ -151,7 +149,7 @@ exports.instrument_list = asyncHandler(async (req, res, next) => {
       const errors = validationResult(req);
       const url = await uploadImageAndGetURL(req,res);
       
-      const instrument = new Instrument({
+      const instrument = {
         name:req.body.name,
         category:req.body.category,
         description:req.body.description,
@@ -159,14 +157,15 @@ exports.instrument_list = asyncHandler(async (req, res, next) => {
         image:url,
         number:req.body.number,
         _id:req.params.id
-      });
+      };
 
       if(errors.isEmpty()){
-        const updatedInstrument = await Instrument.findByIdAndUpdate(req.params.id,instrument,{});
+        const updatedInstrument = 
+        await db.updateInstrument(req.params.id,instrument.name,instrument.category,instrument.description,instrument.price,instrument.image,instrument.number);
 
         res.redirect(updatedInstrument.url);
       }else{
-        const categories = await Category.find({}).sort({ name: 1 }).exec();
+        const categories = db.getAllCategories();
 
         res.render('instrument_form',{title:"Add a new instrument",active:"instrument",categories:categories,instrument:instrument,errors:errors.array()});
       }
