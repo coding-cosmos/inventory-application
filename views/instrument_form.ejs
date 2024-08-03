@@ -28,15 +28,15 @@
                 <select name="category" id="category">
                   <option value="">--Please select a category--</option>
                   <% categories.forEach((category)=>{ %> <% if(instrument){ %> <%
-                  if(instrument.category._id.toString()===category._id.toString()){
+                  if(instrument.category_id === category.category_id){
                   %>
-                  <option value="<%= category._id %>" selected>
+                  <option value="<%= category.category_id %>" selected>
                     <%= category.name %>
                   </option>
                   <% }else{ %>
-                  <option value="<%= category._id %>"><%= category.name %></option>
+                  <option value="<%= category.category_id%>"><%= category.name %></option>
                   <% } %> <% }else{ %>
-                  <option value="<%= category._id %>"><%= category.name %></option>
+                  <option value="<%= category.category_id %>"><%= category.name %></option>
                   <% } %> <% }); %>
                 </select>
                 <input
