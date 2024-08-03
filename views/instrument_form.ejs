@@ -27,17 +27,19 @@
                 />
                 <select name="category" id="category">
                   <option value="">--Please select a category--</option>
-                  <% categories.forEach((category)=>{ %> <% if(instrument){ %> <%
-                  if(instrument.category_id === category.category_id){
-                  %>
-                  <option value="<%= category.category_id %>" selected>
-                    <%= category.name %>
-                  </option>
-                  <% }else{ %>
-                  <option value="<%= category.category_id%>"><%= category.name %></option>
-                  <% } %> <% }else{ %>
-                  <option value="<%= category.category_id %>"><%= category.name %></option>
-                  <% } %> <% }); %>
+                  <% categories.forEach((category)=>{ %>
+                     <% if(instrument){ %> 
+                        <%  if(instrument.category_id == category.category_id){ %>
+                          <option value="<%= category.category_id %>" selected>
+                            <%= category.name %>
+                          </option>
+                        <% }else{ %>
+                        <option value="<%= category.category_id%>"><%= category.name %></option>
+                        <% } %> 
+                     <% }else{ %>
+                        <option value="<%= category.category_id %>"><%= category.name %></option>
+                    <% } %> 
+                  <% }); %>
                 </select>
                 <input
                   type="text"
